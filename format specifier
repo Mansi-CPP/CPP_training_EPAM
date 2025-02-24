@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+int main() {
+    // Integer Format Specifiers
+    int intVar = 1234;
+    unsigned int uintVar = 4321;
+    long longVar = 123456789L;
+    unsigned long ulongVar = 987654321U;
+
+    printf("Integer format specifiers:\n");
+    printf("Signed Decimal: %d\n", intVar);
+    printf("Unsigned Decimal: %u\n", uintVar);
+    printf("Long Integer: %ld\n", longVar);
+    printf("Unsigned Long Integer: %lu\n", ulongVar);
+    printf("Octal format: %o\n", intVar);
+    printf("Hexadecimal (lowercase): %x\n", intVar);
+    printf("Hexadecimal (uppercase): %X\n", intVar);
+    printf("Pointer address: %p\n", &intVar);
+    
+    // Floating Point Format Specifiers
+    float floatVar = 3.14159;
+    double doubleVar = 2.718281828459;
+    long double longDoubleVar = 1.618033988749;
+
+    printf("\nFloating Point format specifiers:\n");
+    printf("Float: %f\n", floatVar);
+    printf("Double: %lf\n", doubleVar);
+    printf("Long Double: %Lf\n", longDoubleVar);
+    printf("Scientific notation (lowercase e): %e\n", doubleVar);
+    printf("Scientific notation (uppercase E): %E\n", doubleVar);
+    printf("Compact Scientific or Decimal (lowercase): %g\n", doubleVar);
+    printf("Compact Scientific or Decimal (uppercase): %G\n", doubleVar);
+
+    // Character Format Specifiers
+    char charVar = 'A';
+    char strVar[] = "Hello, World!";
+
+    printf("\nCharacter format specifiers:\n");
+    printf("Character: %c\n", charVar);
+    printf("String: %s\n", strVar);
+
+    // Width and Precision Modifiers
+    double pi = 3.14159265358979;
+    printf("\nWidth and precision modifiers:\n");
+    printf("Right-aligned, width 10: |%10d|\n", intVar);
+    printf("Left-aligned, width 10: |%-10d|\n", intVar);
+    printf("Float with 3 decimal places: %.3f\n", pi);
+    printf("Float with width 10 and 3 decimal places: |%10.3f|\n", pi);
+
+    // Escape Sequences
+    printf("\nEscape sequences:\n");
+    printf("Newline: Line 1\nLine 2\n");
+    printf("Tab: Column1\tColumn2\n");
+    printf("Backslash: This is a backslash (\\)\n");
+    printf("Single Quote: It\'s a quote\n");
+    printf("Double Quote: She said, \"Hello!\"\n");
+    printf("Null character: %s\n", "End of String\0Not Printed");
+
+    // Long and Short Modifiers
+    short shortVar = 32767;
+    long long longLongVar = 123456789012345LL;
+    unsigned short ushortVar = 65535;
+
+    printf("\nLong and short modifiers:\n");
+    printf("Short Integer: %hd\n", shortVar);
+    printf("Unsigned Short Integer: %hu\n", ushortVar);
+    printf("Long Long Integer: %lld\n", longLongVar);
+    printf("Unsigned Long Long Integer: %llu\n", (unsigned long long)longLongVar);
+
+    return 0;
+}
