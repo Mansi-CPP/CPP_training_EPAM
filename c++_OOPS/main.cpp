@@ -1,3 +1,8 @@
+#include <iostream>
+#include<string >
+#include <array>
+#include "classes.h"
+using namespace std;
 
 int main() {
 	employee* e1 = new employee;//this is a pointer so destructor is not called need to free using delete
