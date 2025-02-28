@@ -1,7 +1,11 @@
 
 #include "CIL.h"
 #include<string>
-
+explicit student(string n) {
+	name = n;
+	//dept = d;
+	cout << "explcit creation";
+}
 student::~student()
 {
 	cout << "destructed" << endl;
