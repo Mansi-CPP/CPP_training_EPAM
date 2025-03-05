@@ -1,0 +1,58 @@
+#pragma once
+#include<iostream>
+#include<string>
+using namespace std;
+//operator overload
+class complex{
+public:
+	int real;
+	int imag;
+
+	complex(int r, int i) : real(r), imag(i) {}
+	complex operator +(complex& in) {
+		return complex(real + in.real, imag + in.imag);
+	}
+	complex operator - () {
+		return complex(-real, -imag);//unary operator
+	}
+	complex operator * (const complex& other) {
+		int r = real * other.real - imag * other.imag;  // Real part
+		int i = real * other.imag + imag * other.real;  // Imaginary part
+		return complex(r, i);  // Return the product as a new Complex number
+	}
+	//unary operator
+	//prefix
+	complex operator ++() {
+		    real++;
+			imag++;
+			return *this;
+	}
+	//postfix
+	complex operator ++(int) {
+		complex temp = *this;
+		real++;
+		imag++;
+		return temp;
+	}
+	void display();
+		
+};
+int main(){
+complex c1(3, 4);
+cout << "Initial value of c1: ";
+c1.display();
+
+// Using prefix increment
+++c1;  // Prefix increment
+cout << "After prefix increment (++c1): ";
+c1.display();
+
+// Using postfix increment
+complex c2 = c1++;  // Postfix increment
+cout << "After postfix increment (c1++), c2 = ";
+c2.display();
+cout << "Updated value of c1: ";
+c1.display();
+
+return 0;
+}
