@@ -34,25 +34,29 @@ public:
 		imag++;
 		return temp;
 	}
-	void display();
+	void display(complex &obj);
 		
 };
+void display(complex &obj)
+{
+	cout << obj.real << " + " << obj.imag << "i" << endl;
+}
 int main(){
-complex c1(3, 4);
-cout << "Initial value of c1: ";
-c1.display();
+ complex c1(3, 4);
+ cout << "Initial value of c1: ";
+ display(c1);
 
-// Using prefix increment
-++c1;  // Prefix increment
-cout << "After prefix increment (++c1): ";
-c1.display();
+ // Using prefix increment
+ ++c1;  // Prefix increment
+ cout << "After prefix increment (++c1): ";
+ display(c1);
 
-// Using postfix increment
-complex c2 = c1++;  // Postfix increment
-cout << "After postfix increment (c1++), c2 = ";
-c2.display();
-cout << "Updated value of c1: ";
-c1.display();
+ // Using postfix increment
+ complex c2 = c1++;  // Postfix increment
+ cout << "After postfix increment (c1++), c2 = ";
+ display(c2);
+ cout << "Updated value of c1: ";
+ display(c1);
 
-return 0;
+	return 0;
 }
