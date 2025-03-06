@@ -1,0 +1,71 @@
+#pragma once
+#include<iostream>
+#include<string>
+using namespace std;
+//operator overload
+class test;
+class complex{
+	int real;
+	int imag;
+public:
+	complex(int r, int i) : real(r), imag(i) {}
+	complex operator +(complex& in) {
+		return complex(real + in.real, imag + in.imag);
+	}
+	complex operator - () {
+		return complex(-real, -imag);//unary operator
+	}
+	complex operator * (const complex& other) {
+		int r = real * other.real - imag * other.imag;  // Real part
+		int i = real * other.imag + imag * other.real;  // Imaginary part
+		return complex(r, i);  // Return the product as a new Complex number
+	}
+	//unary operator
+	//prefix
+	complex operator ++() {
+		    real++;
+			imag++;
+			return *this;
+	}
+	//postfix
+	complex operator ++(int) {
+		complex temp = *this;
+		real++;
+		imag++;
+		return temp;
+	}
+	friend void display(complex &obj);
+	friend class test;
+};
+class test {
+public:
+	void check(complex& obj) {
+		cout << "private member" << obj.real << "+" << obj.imag;
+	}
+};
+
+void display(complex &obj)
+{
+	cout << obj.real << " + " << obj.imag << "i" << endl;
+}
+int main(){
+  complex c1(3, 4);
+ cout << "Initial value of c1: ";
+ display(c1);
+
+ // Using prefix increment
+ ++c1;  // Prefix increment
+ cout << "After prefix increment (++c1): ";
+ display(c1);
+
+ // Using postfix increment
+ complex c2 = c1++;  // Postfix increment
+ cout << "After postfix increment (c1++), c2 = ";
+ display(c2);
+ cout << "Updated value of c1: ";
+ display(c1);
+ test Test;
+ Test.check(c1);
+
+	return 0;
+}
