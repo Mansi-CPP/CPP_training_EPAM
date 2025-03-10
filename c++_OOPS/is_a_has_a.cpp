@@ -84,5 +84,33 @@ public:
     }
    
 };
+ aggregation
+#include <iostream>
+using namespace std;
+
+class Engine {
+public:
+    void start() {
+        cout << "Engine starts." << endl;
+    }
+};
+
+class Car {
+private:
+    Engine* engine;  // Car has an Engine (but it is independent)
+public:
+    Car(Engine* e) : engine(e) {}
+    void drive() {
+        engine->start();
+        cout << "Car is moving." << endl;
+    }
+};
+
+int main() {
+    Engine e;  // Engine object created separately
+    Car c(&e); // Car uses Engine
+    c.drive();
+    return 0;
+}
 
 
