@@ -26,6 +26,9 @@ public:
     SavingsAccount(int accNum, double bal, string accName, double rate)
         : account(accNum, bal, accName), interestRate(rate) {
     }
+    SavingsAccount(int n, double b, string na) :account(accnumber, balance, name) {
+    cout << "const using base class";
+}
     void addInterest() {
         double interest = balance * (interestRate / 100);
         balance += interest;
