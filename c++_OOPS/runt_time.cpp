@@ -57,6 +57,19 @@ public:
 //	}
 //};
 
+class A {
+public:
+	void show() {
+		cout << "Class A" << endl;
+	}
+};
+
+//class B : public A {}; // Inheriting from A
+//class C : public A {}; // Inheriting from A
+class B : virtual public A {}; // Virtual Inheritance avoid ambiguity
+class C : virtual public A {};
+
+class D : public B, public C {}; // Multiple Inheritance diamond problem
 
 #include <iostream>
 #include<string >
@@ -80,4 +93,9 @@ int main() {
     //a->print();// called base class function non virtual binded at compile time
     return 0;
     //destructor is always called for the base class and after destructing the derived class
+	 D obj;
+ //obj.show(); ambiguous
+ //obj.B::show();// explicitly calling to define which function
+ obj.show();//now ambiguity removed because of virtual inheritance
+ return 0;
 }
