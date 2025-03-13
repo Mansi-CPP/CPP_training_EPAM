@@ -16,6 +16,12 @@ public:
 		s = other.s;
 		cout << "shallow copy made";
 	}
+         // deep copy constructor
+//String(const String& other) {
+//	s = new char[strlen(other.s) + 1];  // Allocate new memory
+//	strcpy(s, other.s);  // Copy contents
+//	std::cout << "Deep Copy Constructor called!" << std::endl;
+//}
 	void print() {
 		cout << s << endl;
 	}
