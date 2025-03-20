@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Comparison function for ascending order
+bool ascending(int a, int b) {
+    return a < b;
+}
+
+// Comparison function for descending order
+bool descending(int a, int b) {
+    return a > b;
+}
+
+// Sorting function using function pointer as a callback
+//return type(*ptr)(paramters)
+void sortVector(std::vector<int>& vec, bool (*compare)(int, int)) {
+    std::sort(vec.begin(), vec.end(), compare);
+}
+
+void printVector(const std::vector<int>& vec) {
+    for (int num : vec) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+}
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <tuple>
+#include "functionpointer.cpp"
+
+using namespace std;
+
+
+
+int main() {
+    vector<int> vec = { 5, 2, 9, 1, 5, 6 };
+
+    std::cout << "Original vector: ";
+    printVector(vec);
+
+    // Sort in ascending order using function pointer
+    bool (*funcPtr1)(int, int) = ascending;
+    sortVector(vec, funcPtr1);
+    std::cout << "Sorted in ascending order: ";
+    printVector(vec);
+
+    // Sort in descending order using function pointer
+    bool (*funcPtr2)(int, int) = descending;
+    sortVector(vec, funcPtr2);
+    std::cout << "Sorted in descending order: ";
+    printVector(vec);
+
+    return 0;
+}
