@@ -1,0 +1,17 @@
+#include <iostream>
+
+void processLvalue(int& x) {  // Accepts only lvalues
+    std::cout << "Lvalue reference: " << x << std::endl;
+}
+
+void processRvalue(int&& x) { // Accepts only rvalues
+    std::cout << "Rvalue reference: " << x << std::endl;
+}
+
+int main() {
+    int a = 10;
+    processLvalue(a);  // Passes lvalue
+    processRvalue(20); // Passes rvalue
+
+    return 0;
+}
