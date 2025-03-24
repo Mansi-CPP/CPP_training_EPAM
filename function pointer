@@ -1,8 +1,11 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <tuple>
+#include<algorithm>
+//#include "functionpointer.cpp"
 
-// Comparison function for ascending order
+using namespace std;
+
 bool ascending(int a, int b) {
     return a < b;
 }
@@ -14,7 +17,7 @@ bool descending(int a, int b) {
 
 // Sorting function using function pointer as a callback
 //return type(*ptr)(paramters)
-void sortVector(std::vector<int>& vec, bool (*compare)(int, int)) {
+void sortVector(std::vector<int>& vec, bool (*compare)(int, int)) {//callback function
     std::sort(vec.begin(), vec.end(), compare);
 }
 
@@ -24,21 +27,13 @@ void printVector(const std::vector<int>& vec) {
     }
     std::cout << std::endl;
 }
-
-
-
-
-
-
-#include <iostream>
-#include <vector>
-#include <tuple>
-#include "functionpointer.cpp"
-
-using namespace std;
-
-
-
+//array of fucntion pointer
+int divided(int a, int b) {
+    return a / b;
+}
+int rem(int a, int b) {
+    return a%b;
+}
 int main() {
     vector<int> vec = { 5, 2, 9, 1, 5, 6 };
 
@@ -46,16 +41,19 @@ int main() {
     printVector(vec);
 
     // Sort in ascending order using function pointer
-    bool (*funcPtr1)(int, int) = ascending;
+    bool (*funcPtr1)(int, int) = &ascending; //also call as ==bool(*funcptr1)(int,int)=ascending
     sortVector(vec, funcPtr1);
     std::cout << "Sorted in ascending order: ";
     printVector(vec);
 
     // Sort in descending order using function pointer
-    bool (*funcPtr2)(int, int) = descending;
+    bool (*funcPtr2)(int, int) = &descending;
     sortVector(vec, funcPtr2);
     std::cout << "Sorted in descending order: ";
     printVector(vec);
-
+     //array of pointers
+    int(*op[2])(int, int) = { divided,rem };
+    cout << "divisosr" << op[0](10,5)<< endl;
+    cout << "remainder" << op[1](10,5) << endl;
     return 0;
 }
