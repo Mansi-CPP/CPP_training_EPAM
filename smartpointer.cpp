@@ -172,4 +172,23 @@ int main(){
     return 0;
 }
 
+//custom deleter
+#include <iostream>
+#include <memory>
+
+// Custom deleter function
+void customDelete(int* ptr) {
+    std::cout << "Custom deleter called for value: " << *ptr << std::endl;
+    delete ptr;
+}
+
+int main() {
+    // Create a unique_ptr with custom deleter
+    std::unique_ptr<int, decltype(&customDelete)> myPtr(new int(42), customDelete);
+
+    std::cout << "Value: " << *myPtr << std::endl;
+
+    // When myPtr goes out of scope, customDelete will be called automatically
+    return 0;
+}
 
