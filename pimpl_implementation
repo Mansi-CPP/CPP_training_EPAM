@@ -1,0 +1,105 @@
+header 
+#pragma once
+#include<iostream>
+#include<string>
+#include<memory>
+using namespace std;
+class empl {
+public:
+	empl(string name);
+	~empl();
+
+	//copy const ans assignment operator 
+	empl(empl& other);
+	empl& operator=(empl rhs);
+	int getter();
+	void setter(int amount);
+
+private:    // actual implementation is hidden  what members how they set
+	class impl;
+	unique_ptr<impl>pimpl;
+};
+implementation
+#include "pimpl.h"
+#include<iostream>
+using namespace std;
+class empl::impl {
+public:
+	//if any changes are to be made here then only this file need to be recompiled no need to compile all
+	impl(string name):name(move(name)) {
+
+	}
+	~impl();
+	void welcome() {
+		cout << "welcome" << name << endl;
+	}
+public:
+	string name;
+	int salary = -1;
+};
+
+empl::empl(string name):pimpl(new impl(move(name)))
+{
+	//need to make the constructor of impl class public
+	pimpl->welcome();
+}
+
+empl::~empl() = default;
+
+
+empl::empl(empl& other):pimpl(new impl(*other.pimpl))
+{
+}
+
+empl& empl::operator=(empl rhs)
+{
+	if (this != &rhs) {
+		*pimpl = *rhs.pimpl;
+	}
+	return *this;
+	// TODO: insert return statement here
+}
+
+int empl::getter()
+{
+	return pimpl->salary;
+}
+
+void empl::setter(int amount)
+{
+	pimpl->salary = amount;
+}
+main file
+#include <iostream>
+#include <vector>
+#include <typeinfo>
+#include<algorithm>
+#include<memory>
+#include"pimpl.h"
+int main(){
+    // Create a User
+    empl user1("Alice");
+
+    // Set salary
+    user1.setter(50000);
+
+    // Get salary
+    cout << "Alice's salary is: " << user1.getter() << endl;
+
+    // Use copy constructor
+    empl user2 = user1;
+    cout << "Copied user salary: " << user2.getter() << endl;
+
+    // Modify user2 salary
+    user2.setter(75000);
+    cout << "Updated copied user's salary: " << user2.getter() << endl;
+
+    // Assignment operator
+    empl user3("Bob");
+    user3 = user1;
+    cout << "User3 (assigned from Alice) salary: " << user3.getter() << endl;
+
+    return 0;
+}
+
+
