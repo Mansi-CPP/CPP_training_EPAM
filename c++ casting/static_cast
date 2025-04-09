@@ -1,1 +1,60 @@
-#include<iostream>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+// Base and Derived class for pointer conversions
+class Base {
+public:
+    virtual void greet() { cout << "Hello from Base\n"; }
+};
+
+class Derived : public Base {
+public:
+    void greet() override { cout << "Hello from Derived\n"; }
+};
+
+enum Color { RED, GREEN, BLUE };
+
+int main() {
+    // 1. Primitive Type Conversion (int to float)
+    int intVal = 10;
+    float floatVal = static_cast<float>(intVal);
+    cout << "1. Float value: " << floatVal << endl;
+
+    // 2. Pointer Conversion (Derived* to Base*)
+    Derived d;
+    Base* basePtr = static_cast<Base*>(&d);
+    cout << "2. Pointer Conversion (Derived* -> Base*): ";
+    basePtr->greet();
+    Base b;
+    Derived* DerivedPtr = static_cast<Derived*>(&b);
+    cout << "2. Pointer Conversion (Base* -> Derived*): ";
+    DerivedPtr->greet();
+
+    // 3. Enum to Integer
+    Color color = GREEN;
+    int colorVal = static_cast<int>(color);
+    cout << "3. Enum to Int: " << colorVal << endl;
+
+    // 4. Suppressing Implicit Conversion Warning
+    double pi = 3.14159;
+    cout << "previous value"<<pi << endl;
+    int truncated = static_cast<int>(pi); // explicitly truncate
+    cout << "4. Truncated int value from double: " << truncated << endl;
+
+    // 5. void* to Typed Pointer (not type-safe, use with caution) (risky)
+    void* voidPtr = &intVal;
+    int* intPtr = static_cast<int*>(voidPtr);
+    cout << "5. Value from void* casted to int*: " << *intPtr << endl;
+
+    return 0;
+}
+//1. Float value : 10
+//2. Pointer Conversion(Derived * ->Base*) : Hello from Derived
+//2. Pointer Conversion(Base * ->Derived*) : Hello from Base
+//3. Enum to Int : 1
+//previous value3.14159
+//4. Truncated int value from double : 3
+//5. Value from void* casted to int* : 10
