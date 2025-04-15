@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+int fun(int* ptr)
+{
+    *ptr = *ptr + 10;
+    return (*ptr);
+}
+
+int main() 
+
+    {
+        const int val = 10;
+        const int* ptr = &val;
+        int* ptr1 = const_cast <int*>(ptr);
+        //int val = const_cast<int>(val); must be a pointer variable
+        cout << fun(ptr1) << endl;
+        cout << val;
+        return 0;
+   
+
+        int a = 10, b = 20;
+  const int* p1 = &a;   // Pointer to a constant int (Cannot modify *p1)
+  int* const p2 = &a;   // Constant pointer to int (Cannot change p2)
+  const int* const p3 = &a;  // Constant pointer to constant int
+  //* p1 = 20;  // ❌ Error: Read-only value
+  p1 = &b;   // ✅ Allowed (changing pointer itself)
+  *p2 = 20;  // ✅ Allowed (changing value)
+ // p2 = &b;    //error
+        //ptr = &y;
+}
