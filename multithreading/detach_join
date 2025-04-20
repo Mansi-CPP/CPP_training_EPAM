@@ -1,0 +1,83 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include<thread>
+#include<chrono>
+
+using namespace std;
+using namespace std::chrono;
+void sum(int n) {
+	int ans = 0;
+	for (int i = 0;i < n;i++) {
+		ans += i;
+	}
+	cout<< ans<<endl;
+}
+class Functor {
+public:
+	void f1(int num) {
+		cout <<"no  static"<< num << endl;
+	}
+
+	// Static member function that takes one parameter
+	static void f2(int num) {
+		cout << "static"<<num;
+	}
+	void operator()(int x) {
+		cout << "Hello from functor!" << x << endl;
+	}
+};
+void run(int count) {
+	while (count-- > 0) {
+		cout << count;
+	}
+	this_thread::sleep_for(chrono::seconds(5));
+}
+void prod(int n) {
+	int prod = 1;
+	for (int i = 1;i < n;i++) {
+		prod *= i;
+	}
+	cout << prod<<endl;
+}
+int main() {
+	//auto start = high_resolution_clock::now();
+	//sum(19000000000);
+	//prod(19000000000);
+	//auto stop = high_resolution_clock::now();
+	//auto dur = duration_cast<microseconds>(stop-start);
+	//cout << "time without threads" << dur.count() / 1000000<<endl;
+	//auto start2 = high_resolution_clock::now();
+	//thread t1(sum, 19000000000);//using function pointers to create thread
+	//thread t2(prod, 19000000000);
+	//t1.join();
+	//t2.join();// join ensures the thread completes the execution
+	//auto stop2 = high_resolution_clock::now();
+	//auto dur2 = duration_cast<microseconds>(stop2 - start2);
+	//cout << "time with threads" << dur2.count() / 1000000<<endl;
+	////create thread using lambda function
+	//thread t3([]() {
+	//	cout << "Hello from lambda!" << endl;
+	//	});
+	//t3.join();
+	//// function objects
+	//Functor f;
+	//thread t4(f, 6);
+	//t4.join();
+	////static and non static member function
+	//thread t5(&Functor::f1, &f, 8);
+	//thread t6(&Functor::f2, 10);
+	//t5.detach();
+	cout << "main";
+	thread t1(run, 10);
+	t1.detach();
+	return 0;
+}
+
+// with threads execution was faster
+//1338212608
+//0
+//time without threads3
+//0
+//1338212608     
+//time with threads1
