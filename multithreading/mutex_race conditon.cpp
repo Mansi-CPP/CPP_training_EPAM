@@ -8,11 +8,12 @@
 using namespace std;
 int balance = 0;
 mutex m;
+//race condition
 void add() {
 	for (int i = 0; i < 1000000; i++) {
 		balance++;
 	}
-}
+} 
 int balance2 = 0;
 void add2() {
 	//critical section
