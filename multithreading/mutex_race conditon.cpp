@@ -44,3 +44,40 @@ int main() {
 //output 2
 //balance1333417
 //balance2000000
+
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include<mutex>
+
+using namespace std;
+int count1 = 0;
+int count2 = 0;
+mutex m1;
+mutex m2;
+void task1() {
+    for (int i = 0; i < 19000000; ++i) {
+        if (m1.try_lock()) {
+            count1++;
+            m1.unlock();
+        }
+    }
+}
+
+void task2() {
+    for (int i = 0; i < 19000000; ++i) {
+        m2.lock();
+        count2++;
+        m2.unlock();
+    }
+}
+
+int main() {
+    thread t1(task1);
+    thread t2(task2);
+    t1.join();
+    t2.join();
+    cout << count1 << endl;
+    cout << count2 << endl;
+    return 0;
+}
