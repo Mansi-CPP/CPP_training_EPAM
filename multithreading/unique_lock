@@ -1,0 +1,120 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include<mutex>
+#include<chrono>
+using namespace std;
+using namespace chrono;
+int cnt = 0;
+mutex m;
+void fun(char c,int n) {
+    unique_lock<mutex> lock(m); //mutex  ownership given
+    for (int i = 0;i < n;i++) {
+        cnt++;
+        cout << c << " " << cnt<<endl;
+    }
+
+  
+}
+mutex m2;
+void fun2(char c, int n) {
+    unique_lock<mutex> lock(m2,defer_lock); //does not lock immediately
+    cout << "entering critical section" << c << endl;//it does not require lock
+    lock.lock();//now lock is starting
+    cout << "locked" << endl;
+    for (int i = 0;i < n;i++) {
+        cnt++;
+        cout << c << " " << cnt << endl;
+    }
+
+
+}
+void fun_try(char c, int n) {
+    unique_lock<mutex> lock(m2, try_to_lock); // non-blocking attempt
+    if (lock.owns_lock()) {
+        cout << "Lock acquired by " << c << endl;
+        for (int i = 0; i < n; ++i) {
+            cnt++;
+            cout << c << " " << cnt << endl;
+        }
+    }
+    else {
+        cout << "Thread " << c << " could not acquire lock, skipping work.\n";
+    }
+}
+
+void fun_adopt(char c, int n) {
+    m2.lock(); // manual lock
+    unique_lock<mutex> lock(m2, adopt_lock); // take ownership of already locked mutex
+
+    cout << "Lock adopted by " << c << endl;
+    for (int i = 0; i < n; ++i) {
+        cnt++;
+        cout << c << " " << cnt << endl;
+    }
+
+    // No need to manually unlock; lock's destructor will handle it
+}
+int main() {
+  // thread t1(fun2,'a',10);
+   // thread t2(fun2,'b',10);
+    /*thread t3(fun_try, 'a', 10);
+    thread t4(fun_try, 'b', 10);*/
+    thread t5(fun_adopt, 'a', 10);
+    thread t6(fun_adopt, 'b', 10);
+    /*t1.join();
+    t2.join();*/
+ /*   t3.join();
+    t4.join();*/
+    t5.join();
+    t6.join();
+   // cout << cnt << endl;
+    return 0;
+}
+//entering critical sectionb
+//entering critical sectionalocked
+//
+//b 1
+//b 2
+//b 3
+//b 4
+//b 5
+//b 6
+//b 7
+//b 8
+//b 9
+//b 10
+//locked
+//a 11
+//a 12
+//a 13
+//a 14
+//a 15
+//a 16
+//a 17
+//a 18
+//a 19
+//a 20
+// //adopted lock
+//Lock adopted by b
+//b 1
+//b 2
+//b 3
+//b 4
+//b 5
+//b 6
+//b 7
+//b 8
+//b 9
+//b 10
+//Lock adopted by a
+//a 11
+//a 12
+//a 13
+//a 14
+//a 15
+//a 16
+//a 17
+//a 18
+//a 19
+//a 20
