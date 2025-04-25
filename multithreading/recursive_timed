@@ -1,0 +1,41 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include<mutex>
+#include<chrono>
+using namespace std;
+using namespace chrono;
+int cnt = 0;
+timed_mutex m;
+void fun(int i) {
+      if (m.try_lock_for(seconds(1))) {
+          cout << "thread" << i << "entered"<<endl;
+            cnt++;
+            this_thread::sleep_for(seconds(2));
+            m.unlock();
+        }
+      else {
+          cout << "thread" << i << "not entered"<<endl;
+      }
+  
+}
+recursive_mutex r1;
+int buf = 0;
+void recursive(char c, int n) {
+    if (n < 0) {
+        return;
+    }
+    r1.lock();
+    cout << c << " " << buf++ << endl;
+    recursive(c, --n);
+    r1.unlock();
+    cout << "unlock" << endl;
+}
+int main() {
+    thread t1(recursive,'m',10);
+    thread t2(recursive,'n',10);
+    t1.join();
+    t2.join();
+   // cout << cnt << endl;
+    return 0;
+}
