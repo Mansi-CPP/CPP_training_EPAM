@@ -1,0 +1,43 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include<mutex>
+#include<chrono>
+#include<condition_variable>
+using namespace std;
+using namespace chrono;
+int balance = 0;
+
+mutex m;
+condition_variable cv;
+void deposit(int money) {
+    lock_guard<mutex> lg(m);
+    balance += money;
+    cout << "Amount added" << balance << endl;
+    cv.notify_one();
+}
+void withdraw(int money) {
+    unique_lock<mutex> ul(m);
+    cv.wait(ul, [] {return (balance != 0) ? true : false;}); //check for condition and start only if true
+    if (balance < money) {
+        cout << "cannot withdraw" << endl;
+    }
+    else {
+        balance -= money;
+        cout << "withdrawn";
+    }
+    cout << balance;
+}
+int main() {
+    thread t2(deposit, 1000);
+    thread t1(withdraw, 500);
+  
+    
+    t1.join();
+    t2.join();
+ 
+   // cout << cnt << endl;
+    return 0;
+}
+//Amount added1000
+//withdrawn500
