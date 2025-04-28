@@ -28,7 +28,7 @@ int main()
     future<int> evenFuture = evenNo.get_future();//to wait  for the value
     cout << "My thread is created !!!" << endl;
     thread t1(EvenNosFind, move(evenNo), begin, end);
-    cout << "Waiting..........." << endl;
+    cout << "Waiting..........." << endl; //here the thread waits for getting value and blocks flow untill the value is received
 
     // getting the data
     cout << "The no. of even numbers are : " << evenFuture.get() << endl;
