@@ -16,6 +16,7 @@ void EvenNosFind(promise<int>&& EvenPromise, int begin, int end)
         }
     }
     this_thread::sleep_for(seconds(10));
+    // return;  exception thrown 
     EvenPromise.set_value(evenNo);
    
 }
