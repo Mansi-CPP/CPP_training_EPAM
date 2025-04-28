@@ -55,3 +55,18 @@ int main()
 //16892                                 //*only starts when get is called 
 //                                         * no thread created so thread id is same
 //The no.of even numbers are : 501
+//decided by implementation 
+ cout << "My thread is created when ID is launch::deferred" << endl;
+ future<int> evenfuture = async(launch::deferred|launch::async, EvenNosFind, begin, end);//to wait  for the value
+ this_thread::sleep_for(seconds(10));
+ cout << "Waiting..........." << endl;
+
+ // getting the data
+ cout << "The no. of even numbers are : " << evenfuture.get() << endl;
+Is the system under heavy load?
+
+Does the system prefer fewer threads?
+
+Is the function "small" enough to defer?
+
+Any internal optimization choices.
