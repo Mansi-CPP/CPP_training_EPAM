@@ -1,0 +1,66 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include<future>
+#include<mutex>
+#include<chrono>
+#include<deque>
+#include<condition_variable>
+using namespace std;
+using namespace chrono;
+mutex m;
+condition_variable cv;
+deque<int> buffer;
+int maxsize = 50;
+bool finished = false;
+void producer(int val) {
+    while (val) {
+        unique_lock<mutex> lock(m);
+        cv.wait(lock, []() {return buffer.size() < maxsize; });
+        buffer.push_back(val);
+        cout << "Produced" << val << endl;
+        val--;
+        lock.unlock();
+        cv.notify_one();
+    }
+    //this_thread::sleep_for(milliseconds(500));
+    unique_lock<mutex> lock(m);
+    finished = true;   // 🔥 Mark finished
+    lock.unlock();
+    cv.notify_all();
+}
+void consumer() {
+    while (true) {
+        unique_lock<mutex> lock(m);
+        cv.wait(lock, []( ){return !buffer.empty() || finished; });
+        //int val = buffer.back();
+        //buffer.pop_back();
+        //cout << "consumed" << val << endl;
+        //lock.unlock();// we need to notify others about released mutex so unlock manually
+        //cv.notify_one();
+       // this_thread::sleep_for(milliseconds(500));
+        //if we do not unlock manually it will inform all the other threads while still holding the lock this 
+        //will cause other threads to sleep again leading to deadlock
+        if (!buffer.empty()) {
+            int val = buffer.back();
+            buffer.pop_back();
+            cout << "Consumed " << val << endl;
+            lock.unlock();
+            cv.notify_one();
+        }
+        else if (finished) {
+            // Buffer empty and producer finished -> exit    // else the consumer thread keeps waiting for producer
+                                                               // to produce more even if producer has finished its work 
+            lock.unlock();
+            break;
+        }
+    }
+}
+int main()
+{
+    thread t1(producer, 100);
+    thread t2(consumer);
+    t1.join();
+    t2.join();
+    return 0;
+}
