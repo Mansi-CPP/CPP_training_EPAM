@@ -1,0 +1,56 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include<future>
+#include<mutex>
+#include<chrono>
+#include<deque>
+#include<condition_variable>
+#include"semaphores.h"
+#include<chrono>
+using namespace std;
+using namespace chrono;
+deque<int>buffer;
+
+BinarySemaphore S2P{ 1 }, S2C{ 0 };
+void producer(int val) {
+    while (val) {
+        S2P.acquire();
+        cout << "Produced ";
+        buffer.push_back(val);
+        cout << val<<" ";
+        val--;
+        S2C.release();
+    }
+    S2P.acquire();
+    buffer.push_back(-1);
+    cout << endl;
+    S2C.release();
+}
+void consumer() {
+    while (1) {
+        S2C.acquire();
+        int val = buffer.back();
+        buffer.pop_back();
+        if (val == -1) break; // end
+        cout << "Consumed: " << val << endl;
+        S2P.release();
+    }
+    cout << endl;
+    S2P.release();
+
+}
+int main()
+{
+    thread t1(producer, 100);
+    thread t2(consumer);
+    t1.join();
+    t2.join();
+    return 0;
+}
+//
+//Multiple producers or consumers are active
+//
+//Or the semaphores don’t strictly alternate access
+//
+//Or the critical section is more complex than a single push_back() / pop_back()
