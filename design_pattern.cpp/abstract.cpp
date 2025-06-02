@@ -109,3 +109,84 @@ int main() {
     // shared_ptr automatically destroys the object and prints destructor message
     return 0;
 }
+#include<iostream>
+using namespace std;
+//
+class button {
+public:
+    virtual void press() = 0;
+    virtual ~button()=default;
+};
+class checkbox {
+public:
+    virtual void select() = 0;
+    virtual ~checkbox() = default;
+};
+//concrete Product
+class windowsbutton :public button {
+public:
+    void press() override {
+        cout << "windows" << endl;
+
+    }
+    ~windowsbutton(){
+        cout << "windows destructed" << endl;
+    }
+};
+class macbutton :public button {
+public:
+    void press() override {
+        cout << "mac" << endl;
+
+    }
+    ~macbutton() {
+        cout << "mac destructed" << endl;
+    }
+};
+class windowscheckbox :public checkbox {
+public:
+    void select() override {
+        cout << "windows" << endl;
+
+    }
+    ~windowscheckbox() {
+        cout << "windows destructed" << endl;
+    }
+};
+class maccheckbox :public checkbox {
+public:
+    void select() override {
+        cout << "mac" << endl;
+
+    }
+    ~maccheckbox() {
+        cout << "windows destructed" << endl;
+    }
+};
+//abstract factory
+class UIfactory {
+public:
+    virtual button* createButton() = 0;
+    virtual checkbox* createCheckbox() = 0;
+    virtual ~UIfactory() = default;
+
+};
+//concrete factory
+class windowUIfactory:public UIfactory {
+    button* createButton() override {
+        return new windowsbutton();
+    };
+    checkbox* createCheckbox()override {
+        return new windowscheckbox();
+    };
+
+};
+class macUIfactory :public UIfactory {
+    button* createButton() override {
+        return new macbutton();
+    };
+    checkbox* createCheckbox()override {
+        return new maccheckbox();
+    };
+
+};
