@@ -77,3 +77,13 @@ int main() {
     delete Sibling;
     return 0;
 }
+
+//note
+1.in case of pointers
+Base* base = new Base();  // base points to a real Base object
+
+Derived* derived = dynamic_cast<Derived*>(base);  // ❌ Returns nullptr
+//nullptr exist so can return nullptr 
+2.in case of references 
+Derived& d = dynamic_cast<Derived&>(b);  // throws bad cast exception
+//null refernces do not exist 
