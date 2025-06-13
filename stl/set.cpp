@@ -66,5 +66,12 @@ int main() {
 	for (auto i = sp.begin(); i != sp.end();++i) {
 		cout << i->name << " " << i->age << endl;
 	}
+	multiset<int> ms = { 2,4,4,8,90,12,34,2,87,92,87,35,90 };
+ms.erase(2);//delete all instances
+auto it = ms.find(90);
+ms.erase(it);//delete the first instance
+for (auto it : ms) {
+	cout << it<<endl;
+}
    return 0;
 }
