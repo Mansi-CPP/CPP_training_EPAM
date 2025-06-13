@@ -1,0 +1,70 @@
+#include<iostream>
+#include<set>
+#include<vector>
+#include<string>
+#include<functional>
+using namespace std;
+class person {
+public:
+	int age;
+	string name;
+public:
+	person(int a, string n) :age(a), name(n) {
+		cout << "constructor " << endl;
+
+	}
+	bool operator < (const person& other) const{
+		return age < other.age;
+	}
+	bool operator > (const person& other)const {
+		return age > other.age;
+	}
+};
+int main() {
+	//different ways to initialise
+	set<int> s;
+	set<int, greater<>> s2{ 2,3,56,7,90,12,30 };
+	s.insert(10);
+	s.insert(17);
+	s.insert(13);
+	s.insert(18);
+	s.insert(1);
+	set<int> s3(s);
+
+	vector<int> v{ 1,23,4,6,8 };
+	set<int> s5{ v.begin(),v.end() };
+	auto itr=s.find(13);
+	if (itr == s.end()) {
+		cout << "not found" << endl;
+	}
+	else {
+		cout << "found" << endl;
+	}
+	s.erase(itr);
+	s.erase(18);
+	for (auto it : s) {
+		cout << it << endl;
+	}
+	cout << s.count(13) << endl;
+	//cout << (s.contains(13) ? "yes" : "no") << endl; in c++20
+	set<int> nums{ 2,3,56,7,90,12,30,23,78,90,32 };
+	auto rb = nums.rbegin();
+	auto re = nums.rend();
+	for (auto i = rb;i != re;++i) {
+		std::cout << *i << " ";
+	}
+	auto crb = nums.cbegin();
+	auto cre = nums.cend();
+	for (auto i = crb;i != cre;++i) {
+		std::cout << *i << " ";
+	}
+	set<person>sp;
+	sp.insert(person{21,"bob"});
+	sp.emplace(32, "mansi");
+	//person p1;
+	sp.insert({ 22, "shivam" });
+	for (auto i = sp.begin(); i != sp.end();++i) {
+		cout << i->name << " " << i->age << endl;
+	}
+   return 0;
+}
