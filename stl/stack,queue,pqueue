@@ -1,0 +1,56 @@
+#include<iostream>
+#include<queue>
+#include<stack>
+
+using namespace std;
+class person {
+public:
+	string name;
+	int age;
+	person(string n, int a) :name{ n }, age{ a } {
+
+	}
+};
+auto cmp = [](person& p1, person& p2) {
+	return p1.age < p2.age;
+	};
+int main() {
+	//queue<int> q1;
+	//q1.push(2);
+	//q1.push(3);
+	//q1.push(1);
+	//q1.push(5);
+	//q1.push(6);
+	//while (!q1.empty()) {
+	//	cout << q1.front() << " ";
+	//	q1.pop();
+	// }
+	//stack<int> s1;
+	//s1.push(2);
+	//s1.push(3);
+	//s1.push(1);
+	//s1.push(5);
+	//s1.push(6);
+	//cout << s1.size();
+	//while (!s1.empty()) {
+	//	cout << s1.top() << " ";
+	//	s1.pop();
+	//}
+	////cout<<q1.back();
+	//priority_queue<int, vector<int>> pq; //vector should be the used container
+	//pq.push(9);
+	//pq.push(8);
+	//pq.push(6);
+	//pq.push(10);
+	//pq.push(11);
+	//pq.push(3);
+	//cout << pq.top();
+	
+	priority_queue<person, vector<person>,decltype(cmp)> pq1(cmp); //vector should be the used container
+	pq1.push(person("Alice", 30));
+	pq1.push(person("Bob", 25));
+	pq1.push(person("Charlie", 40));
+	person p = pq1.top();
+	cout << p.name;
+	return 0;
+}
